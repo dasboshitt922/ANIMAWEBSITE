@@ -23,8 +23,6 @@ const db_url = process.env.DB_URL || 'mongodb://localhost:27017/anima-db';
 
 const MongoDBStore = require('connect-mongo');
 
-
-
 mongoose.connect(db_url,{
     useNewUrlParser: true,
     useCreateIndex: true,
