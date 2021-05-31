@@ -64,10 +64,6 @@ app.use(session({
 
   }));
 
-// store.on('error',function(e){
-//     console.log("SESSION STORE ERROR")
-// })
-
 const sessionConfig = {
     secret:process.env.CLOUDINARY_SECRET,
     resave: false,
