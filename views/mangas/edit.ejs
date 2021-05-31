@@ -1,0 +1,70 @@
+<% layout('/layouts/boilerplate') %>
+    <div class="row">
+        <h1 class="text-center">Edit Manga</h1>
+        <div class="col-6 offset-3">
+            <form action="/mangas/<%=mangas._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="manga[title]" value="<%=mangas.title%>"required>
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="author">Author</label>
+                    <input class="form-control" type="text" id="author" name="manga[author]" value="<%=mangas.author%>"required>
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="list-group">
+                        <!-- ejs for loop -->
+                        <% for(genre of genres.genre[0].mga_genres){ %> 
+                             <!--if the input has the same value as the mangas passed then set the checked attribute to 'true'  -->
+                        <label class="list-group-item">
+                          <input class="form-check-input me-1" type="checkbox" value="<%=genre%>" name="manga[genre]">
+                          <%=genre%> 
+                        </label>
+                        <% } %>                        
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control"type="text" id="description" name="manga[description]"required><%=mangas.description%></textarea>
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Choose Image(s)</label>
+                    <input class="form-control" type="file" id="image" name="image" multiple>
+                  </div>
+
+                <div class="mb-3">
+                    <% mangas.images.forEach(function(img,index){ %> 
+                        <img src="<%=img.thumbnail%>" alt="" class="image-thumbnail">
+                        <div class="form-check-inline">
+                            <input type="checkbox" id="image-<%=index%>" name="deleteImages[]" value="<%=img.filename%>">
+                        </div>
+                        <label for="image-<%=index%>">Delete Image?</label>
+                        <% }) %> 
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info" id="checkBtn">Update Manga</button> 
+                </div>                
+            </form>
+            <a href="/mangas/<%=mangas._id%>">Back to Manga</a>
+        </div>
+    </div>
+
+ 
+
+
+
+    

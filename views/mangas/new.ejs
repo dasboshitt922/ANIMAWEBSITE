@@ -1,0 +1,55 @@
+<% layout('/layouts/boilerplate') %>
+    <div class="row">
+        <h1 class="text-center text-white">New Manga</h1>
+        <div class="col-6 offset-3 text-white">
+            <form action="/mangas" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="manga[title]" required>
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="author">Author</label>
+                    <input class="form-control" type="text" id="author" name="manga[author]" required>
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="list-group">
+                        <p>Genre/s</p>
+                        <% for(genre of genres.genre[0].mga_genres){ %> 
+                        <label class="list-group-item">
+                          <input class="form-check-input me-1" type="checkbox" value="<%=genre%>" name="manga[genre]">
+                          <%=genre%> 
+                        </label>
+                        <% } %> 
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control"type="text" id="description" name="manga[description]" required></textarea>
+                    <div class="valid-feedback">
+                        NAISU!
+                    </div>
+                </div>  
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Choose Image(s)</label>
+                    <input class="form-control" type="file" id="image" name="image" multiple>
+                  </div>
+                  
+                <div class="mb-3">
+                    <button class="btn btn-success" id="checkBtn">Add Manga</button> 
+                </div>                
+            </form>
+            <a href="/mangas">All Mangas</a>
+        </div>
+    </div>
+

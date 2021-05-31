@@ -1,0 +1,77 @@
+<% layout('/layouts/boilerplate') %>
+<div class="row">
+    <div class="col-6">
+        <div id="mangaCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <% mangas.images.forEach((img,index)=>{ %>    
+            <div class="carousel-item <%= index === 0 ? 'active' : ''%>  ">
+              <img src="<%= img.url %>" class="d-block w-100" alt="">
+            </div>
+            <% }) %>  
+
+          </div>
+          <% if(mangas.images.length > 1) { %> 
+          <button class="carousel-control-prev" type="button" data-bs-target="#mangaCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#mangaCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %> 
+        </div>
+        <div class="card mb-3 text-white bg-dark">           
+            <div class="card-body">
+                <h5 class="card-title"><%=mangas.title%></h5>
+                <p class="card-text"><%=mangas.description%></p>
+            </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">Author: <%=mangas.author%></li>
+                    <li class="list-group-item ">Uploaded by: <%=mangas.uploader.username%></li>
+                  </ul>
+            <div class="card-body">                  
+                <p>Genre/s: <%=mangas.genre%></p>              
+            </div>
+            <% if(currentUser && mangas.uploader.equals(currentUser._id)){ %> 
+            <div class="card-body">
+              <a class="card-link btn btn-info" href="/mangas/<%=mangas._id %>/edit">Edit</a>
+              <form class="d-inline" action="/mangas/<%=mangas._id%>?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+            <% } %> 
+          </div>          
+    </div>
+      <div class="col-6 text-white">
+        <% if(currentUser){ %> 
+        <h2>Leave a Comment</h2>
+          <form action="/mangas/<%=mangas._id%>/comments" method="POST" class="mb-3 validated-form" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="score">Score</label>
+              <input class="form-range" type="range" min="1" max="10" name="comment[score]" id="score">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="body">Comment</label>
+              <textarea class="form-control" name="comment[body]" id="body" cols="5" rows="3" required></textarea>
+            </div>
+            <button class="btn btn-success">Submit</button>
+          </form>
+          <% } %> 
+          <% for(let comment of mangas.comments){ %> 
+            <div class="mb-3 card text-white bg-dark">
+              <div class="card-body">
+                  <h5 class="card-title">Rating: <%=comment.score%></h5>
+                  <h6 class="card-subtitle mb-2 text-muted">-<%=comment.owner.username%>-</h6>
+                  <p class="card-text"><%=comment.body%></p>
+                  <% if(currentUser && comment.owner.equals(currentUser._id)){ %>   
+                  <form action="/mangas/<%=mangas._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST"> 
+                      <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                    <% } %> 
+              </div>
+          <% } %> 
+            </div>
+      </div>
+</div>
+
