@@ -21,7 +21,7 @@ const commentsRoutes = require('./routes/comments');
 
 const db_url = process.env.DB_URL || 'mongodb://localhost:27017/anima-db';
 
-const MongoStore = require('connect-mongo');
+const MongoDBStore = require("connect-mongo")(session);
 
 
 
@@ -54,17 +54,28 @@ app.use(express.static(path.join(__dirname,'public')))
 //     touchAfter: 24 * 60 * 60
 // });
 
-app.use(session({
+const store = new MongoDBStore({
+    url: db_url,
     secret:process.env.CLOUDINARY_SECRET,
-    resave: false,
-    saveUninitialized:true,
-    // store:MongoStore.create({
-    //     mongoUrl:db_url
-    // })
+    touchAfter: 24 * 60 * 60
+});
 
-  }));
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
+// app.use(session({
+//     secret:process.env.CLOUDINARY_SECRET,
+//     resave: false,
+//     saveUninitialized:true,
+//     // store:MongoStore.create({
+//     //     mongoUrl:db_url
+//     // })
+
+//   }));
 
 const sessionConfig = {
+    store,
     secret:process.env.CLOUDINARY_SECRET,
     resave: false,
     saveUninitialized:true,
@@ -74,6 +85,8 @@ const sessionConfig = {
         maxAge:1000*60*60*24*7
     }
 }
+
+
 
 app.use(session(sessionConfig))
 app.use(flash());
