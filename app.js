@@ -21,7 +21,9 @@ const commentsRoutes = require('./routes/comments');
 
 const db_url = process.env.DB_URL || 'mongodb://localhost:27017/anima-db';
 
-const MongoDBStore = require('connect-mongo');
+const MongoStore = require('connect-mongo');
+
+
 
 mongoose.connect(db_url,{
     useNewUrlParser: true,
@@ -56,9 +58,9 @@ app.use(session({
     secret:process.env.CLOUDINARY_SECRET,
     resave: false,
     saveUninitialized:true,
-    store:MongoDBStore.create({
-        mongoUrl:db_url
-    })
+    // store:MongoStore.create({
+    //     mongoUrl:db_url
+    // })
 
   }));
 
@@ -107,8 +109,6 @@ app.use((err,req,res,next)=>{
     res.status(statusCode).render('error',{err});
 })
 
-const port = process.env.PORT || 3000;
-
-app.listen(port,()=>{
-    console.log(`Serving on Port ${port}!`)
+app.listen(3000,()=>{
+    console.log('Serving on port 3000 Paisen!')
 })
