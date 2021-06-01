@@ -48,11 +48,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname,'public')))
 
-// const store = new MongoDBStore({
-//     url: 'mongodb://localhost:27017/anima-db',
-//     secret: 'thedevouringmother',
-//     touchAfter: 24 * 60 * 60
-// });
+
 
 const store = new MongoDBStore({
     url: db_url,
@@ -64,15 +60,6 @@ store.on("error", function (e) {
     console.log("SESSION STORE ERROR", e)
 })
 
-// app.use(session({
-//     secret:process.env.CLOUDINARY_SECRET,
-//     resave: false,
-//     saveUninitialized:true,
-//     // store:MongoStore.create({
-//     //     mongoUrl:db_url
-//     // })
-
-//   }));
 
 const sessionConfig = {
     store,
